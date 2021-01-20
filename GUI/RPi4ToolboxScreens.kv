@@ -1,0 +1,154 @@
+WindowManager:
+    MainWindow:
+    SecondWindow:
+
+<MainWindow>:
+    name: "main"
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 10
+            padding: 10
+        
+            Image:
+                source: 'header.png'
+                size: self.texture_size 
+                
+        # BODY      
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 10
+            padding: 10
+            
+            Button:
+                text: "Start Experiment"
+                font_size: 35
+                on_release: 
+                    app.root.current = "second"
+                    root.manager.transition.direction = "left"
+                
+            Button:
+                text: "Experimental Protocol"
+                font_size: 35
+                
+            Button:
+                text: "Check Progress"
+                font_size: 35
+                
+            Button:
+                text: "Subject IDs"
+                font_size: 35
+        
+        # FOOTER
+        BoxLayout:
+            orientation: "horizontal"
+            
+            Button:
+                markup: True
+                text: "[b]RPi4Toolbox[/b] (C) 2021 GuillermoHidalgoGadea.com"
+                on_press: #root.homepage()
+                pos_hint: {"center_x": 0.5}
+                size_hint: (1,0.2)
+
+<SecondWindow>:
+    name: "second"
+    
+        GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 10
+            padding: 10
+        
+            Image:
+                source: 'header.png'
+                size: self.texture_size 
+                
+            
+        # BODY
+        GridLayout:
+        cols: 2
+            Label:
+                text: "Subject ID:"
+                font_size: 30
+                size_hint_y: None
+                height: 100
+                size_hint_x: None
+                width: 250
+                
+            TextInput:
+                id: subject
+                multiline: False
+                size_hint_y: None
+                height: 100
+                size_hint_x: None
+                width: 250
+                
+            Label:
+                text: "Experimenter:"
+                font_size: 30
+                size_hint_y: None
+                height: 100
+                size_hint_x: None
+                width: 250
+                
+            TextInput:
+                id: experimenter
+                multiline: False
+                size_hint_y: None
+                height: 100
+                size_hint_x: None
+                width: 250
+                
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 10
+            padding: 10
+            
+            Button:
+                text: "OK"
+                font_size: 30
+                on_press: #root.press()
+                size_hint: (0.2,0.2)
+                
+            Button:
+                text: "Cancel"
+                font_size: 30
+                on_press: #root.clear()
+                size_hint: (0.2,0.2)
+                
+            Button:
+                text: "Quit"
+                font_size: 30
+                size_hint: (0.2,0.2)
+                on_release: 
+                    app.root.current = "first"
+                    root.manager.transition.direction = "right"
+                
+            Button:
+                text: "Help"
+                font_size: 30
+                on_press: #root.callhelp()
+                size_hint: (0.2,0.2)
+        
+        # FOOTER
+        BoxLayout:
+            orientation: "horizontal"
+            
+            Button:
+                markup: True
+                text: "[b]RPi4Toolbox[/b] (C) 2021 GuillermoHidalgoGadea.com"
+                on_press: #root.homepage()
+                pos_hint: {"center_x": 0.5}
+                size_hint: (1,0.2)
+
+        
+         

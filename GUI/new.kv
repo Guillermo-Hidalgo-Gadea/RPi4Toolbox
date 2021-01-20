@@ -1,0 +1,29 @@
+WindowManager:
+    MainWindow:
+    SecondWindow:
+
+<MainWindow>:
+    name: "main"
+    
+    BoxLayout:
+        orientation: "vertical"
+        
+        Label:
+            text: "First Screen"
+            
+        Button:
+            text: "Next Screen"
+            on_release: app.root.current = "first"
+    
+<SecondWindow>:
+    name: "second"
+    
+    BoxLayout:
+        orientation: "vertical"
+        
+        Label:
+            text: "Second Screen"
+            
+        Button:
+            text: "Previous Screen"
+            on_release: app.root.current = "main"
