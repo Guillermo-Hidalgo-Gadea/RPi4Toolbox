@@ -5,60 +5,63 @@ Created on Tue Jan 19 15:48:01 2021
 """
 
 # GUI for RPi4 Toolbox in Kivy
-#import webbrowser
+import webbrowser
 from kivy.app import App
-#from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 
 # Define different screens
-class MainWindow(Screen):
+class MainScreen(Screen):
+    def homepage(self):
+        webbrowser.open("https://guillermohidalgogadea.com/#contact")
+
+
+class SecondScreen(Screen):
+    # clear input boxes
+    subject = ObjectProperty(None)
+    experimenter = ObjectProperty(None)
+
+    def clear(self):
+        self.subject.text = ""
+        self.experimenter.text = ""
+
+
+class ThirdScreen(Screen):
     pass
 
-class SecondWindow(Screen):
+class FourthScreen(Screen):
     pass
 
+class FifthScreen(Screen):
+    pass
+
+class SixthScreen(Screen):
+    pass
+
+class SeventhScreen(Screen):
+    def edit(self):
+        open("experimentalprotocol.yaml")
+
+class EigthsScreen(Screen):
+    def edit(self):
+        open("experimentalprotocol.yaml")
+
+class NinethScreen(Screen):
+    pass
+   
 class WindowManager(ScreenManager):
     pass
 
 
 # See outsourced GUI design in .kv file
-kv = Builder.load_file('RPi4ToolboxScreens.kv')
-#kv = Builder.load_file('new.kv')
-    
-#subject = ObjectProperty(None)
-#experimenter = ObjectProperty(None)
-    
-#def press(self):
-#    subject = self.subject.text
-#    experimenter = self.experimenter.text
-        
-        # Print to console
-#    print(f'Hello {experimenter}, start testing {subject}') 
-        # Print to screen
-        #self.add_widget(Label(text=f'Hello {experimenter}, start testing {subject}'))
-        
-        # clear input boxes
-#    self.subject.text = ""
-#    self.experimenter.text = ""
-        
-#def clear(self):
-        # clear input boxes
-#    self.subject.text = ""
-#    self.experimenter.text = ""
-        
-        
-#def callhelp(self):
-#     webbrowser.open("https://guillermohidalgogadea.com/#contact")
-    
-#def homepage(self):
-#     webbrowser.open("https://guillermohidalgogadea.com")
+kv = Builder.load_file('DesignGUI.kv')
 
         
-class RPi4ToolboxScreens(App):
+class RPi4ToolboxGUI(App):
     def build(self):
         return kv
 
 if __name__ == '__main__':
-    RPi4ToolboxScreens().run()
+    RPi4ToolboxGUI().run()
     
