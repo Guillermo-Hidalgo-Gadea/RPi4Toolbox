@@ -51,14 +51,33 @@ sudo reboot
 
 Last but not least, to be able to access gpio pins without using sudo you need to change permissions for sys/class/gpio folder and all enclosed files
 
-open file manager from terminal with 
-sudo nautilus
-navigate to sys/class and on the gpio folger change permission for others
+several workarounds were used here, and I am not sure yet which one did the trick
+
+- workaround 1: create gpio group and assign user to gpio group and dialout group
+follow instructions in .py script to create gpio group first
 
 sudo adduser username dialout
 sudo adduser username gpio
- 
- ## work in progress... several workaraounds applied
+
+- workaround 2: change permission to gpiomem, gpiochip0 and gpiochip1
+
+cd /dev/
+
+ls -l  gpiomem gpiochip0 gpiochip1
+
+chmod 777 gpiomem gpiochip0 gpiochip1
+
+- workaround 3: change permissions in sys/class/gpio
+
+cd /sys/class/gpio
+
+ls -l export unexport
+
+chmod 777 export unexport
+
+
+sudo reboot
+
 
 # Download repository and start GUI 
 
