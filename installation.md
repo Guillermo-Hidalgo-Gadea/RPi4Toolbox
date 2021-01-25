@@ -4,8 +4,11 @@ follow this instructions (https://ubuntu.com/tutorials/how-to-install-ubuntu-des
 - wirte an Ubuntu Desktop 20.10 image on a 256GB micro sd card with Raspberry Pi Imager
 - Boot your Raspberry Pi4 with Ubuntu Desktop
 
+# Install Spyder
 
-# Install python 3 and some extra libraries (run installation file tbc)
+sudo apt install spyder
+
+# Install some extra libraries for python 3 (run installation file tbc)
 
 - update and upgrade your ubuntu installation (make take a few minutes)
 
