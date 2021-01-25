@@ -46,6 +46,9 @@ sudo reboot
 
 Last but not least, to be able to access gpio pins without using sudo you need to change permissions for sys/class/gpio folder and all enclosed files
 
+open file manager from terminal with 
+sudo nautilus
+navigate to sys/class and on the gpio folger change permission for others
 
 # Download repository and start GUI 
 
