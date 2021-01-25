@@ -8,12 +8,16 @@
 
 # install kivy
 
-'sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev'
+sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
-'sudo apt update'
+sudo apt update
 
-'sudo apt install python3-setuptools git-core python3-dev'
+sudo apt install python3-setuptools git-core python3-dev
 
-'python3 -m pip install kivy[base] kivy_examples'
+python3 -m pip install kivy[base] kivy_examples
 
 # install gpiozero, blinkstick etc 
+
+pip3 install gpiozero rpi.gpio blinkstick
+
+sudo blinkstick --add-udev-rule # add permission
