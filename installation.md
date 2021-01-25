@@ -26,9 +26,11 @@ pip --version
 
 pip3 --version
 
-- install gpiozero and blinkstick libraries
+- install RPi.gpio, gpiozero and blinkstick libraries
 
-sudo pip install gpiozero blinkstick usb
+sudo apt-get install rpi.gpio-common rpi.gpio
+
+sudo pip install gpiozero blinkstick pyusb
 
 
 # Install kivy by running the following commands
@@ -52,6 +54,11 @@ Last but not least, to be able to access gpio pins without using sudo you need t
 open file manager from terminal with 
 sudo nautilus
 navigate to sys/class and on the gpio folger change permission for others
+
+sudo adduser username dialout
+sudo adduser username gpio
+ 
+ ## work in progress... several workaraounds applied
 
 # Download repository and start GUI 
 
