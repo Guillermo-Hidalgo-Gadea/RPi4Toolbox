@@ -36,9 +36,10 @@ sudo apt update
 
 sudo pip install kivy[base] kivy_examples
 
+
 sudo apt autoremove
 
-sudo apt upgrade
+sudo reboot
 
 
 # Change Permissions to access GPIO pins
