@@ -28,7 +28,7 @@ pip3 --version
 
 - install gpiozero and blinkstick libraries
 
-sudo pip install gpiozero blinkstick
+sudo pip install gpiozero blinkstick usb
 
 
 # Install kivy by running the following commands
