@@ -1,31 +1,50 @@
 # Install Ubuntu 20.10 on a SD card
 
-follow the instructions in this link https://ubuntu.com/tutorials/how-to-install-ubuntu-desktop-on-raspberry-pi-4#1-overview
+follow this instructions (https://ubuntu.com/tutorials/how-to-install-ubuntu-desktop-on-raspberry-pi-4#1-overview) to: 
 - wirte an Ubuntu Desktop 20.10 image on a 256GB micro sd card with Raspberry Pi Imager
 - Boot your Raspberry Pi4 with Ubuntu Desktop
 
-# Install python 3 and some extra libraries
+
+# Install python 3 and some extra libraries (run installation file tbc)
+
+- update and upgrade your ubuntu installation (make take a few minutes)
 
 sudo apt update
+
 sudo apt -y upgrade
 
-sudo apt install -y python3-pip build-essential libssl-dev libffi-dev python3-dev
+- python should already be installed, but some of the following packages may be missing
 
-check pip and pip3 versions to see if pip points to pip3 
+sudo apt install -y python3-pip build-essential libssl-dev libffi-dev python3-setuptools git-core
+
+- check pip and pip3 versions to see if pip points to pip3, if it does, you can use pip instead of pip3
+
 pip --version
+
 pip3 --version
 
-sudo pip3 gpiozero blinkstick
+- install gpiozero and blinkstick libraries
 
-# change permisson for sys/class/gpio folder and enclosed files
+sudo pip install gpiozero blinkstick
 
-# install kivy
+
+# Install kivy by running the following commands
 
 sudo apt install libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev
 
 sudo apt update
 
-sudo apt install python3-setuptools git-core python3-dev
+sudo pip install kivy[base] kivy_examples
 
-python3 -m pip install kivy[base] kivy_examples
+sudo apt autoremove
+
+sudo apt upgrade
+
+
+# Change Permissions to access GPIO pins
+
+Last but not least, to be able to access gpio pins without using sudo you need to change permissions for sys/class/gpio folder and all enclosed files
+
+
+# Download repository and start GUI 
 
