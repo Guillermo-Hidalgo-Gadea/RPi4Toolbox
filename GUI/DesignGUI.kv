@@ -352,17 +352,20 @@ WindowManager:
                 halign: 'justify'
                 valign: 'top'
                   
-        Button:
-            text: "Start"
-            font_size: 30
-            pos_hint: {"top": 1, "center_x": 0.5}
-            size_hint: (None, None)
-            width: 200
-            height: 50 
-            on_release:
-                app.root.current = "countdown"
-                root.manager.transition.direction = "left"
-    
+        BoxLayout:
+            orientation: "vertical"  
+            
+            Button:
+                text: "Start"
+                font_size: 30
+                pos_hint: {"top": 1, "center_x": 0.5}
+                size_hint: (None, None)
+                width: 200
+                height: 50 
+                on_release:
+                    app.root.current = "countdown"
+                    root.manager.transition.direction = "left"
+        
         Label:
             text: ""
             size_hint: (1, 0.2)
@@ -374,7 +377,7 @@ WindowManager:
             on_release: 
                 app.root.current = "main"
                 root.manager.transition.direction = "right"
-            size_hint: (1,.12)
+            size_hint: (1,.3)
 
 
 <FifthScreen>:
@@ -461,16 +464,19 @@ WindowManager:
             pos_hint: {"top":1}
                 
         # BODY
-        Label: 
-            text: "Trial Finished!"
-            font_size: 40
-            multiline: True
-            size_hint: (1,.3)
-            text_size: 1500, None
-            size: self.texture_size
-            halign: 'justify'
-            valign: 'middle'
-            pos_hint: {"center_x": 0.5, "top": 1}
+        BoxLayout:
+            orientation: "vertical"  
+            
+            Label: 
+                text: "Trial Finished!"
+                font_size: 40
+                multiline: True
+                size_hint: (1,.3)
+                text_size: 1500, None
+                size: self.texture_size
+                halign: 'justify'
+                valign: 'middle'
+                pos_hint: {"center_x": 0.5, "top": 1}
             
         GridLayout:
             cols: 2
@@ -495,16 +501,19 @@ WindowManager:
                 valign: 'top'
              
                     
-        Button:
-            text: "Continue"
-            size_hint: (None, None)
-            width: 200
-            height: 50
-            pos_hint: {"center_x": 0.5, "top": 0.5}
-            on_release: 
-                app.root.current = "selection"
-                root.manager.transition.direction = "right"
+        BoxLayout:
+            orientation: "vertical"  
             
+            Button:
+                text: "Continue"
+                size_hint: (None, None)
+                width: 200
+                height: 50
+                pos_hint: {"center_x": 0.5, "top": 0.5}
+                on_release: 
+                    app.root.current = "selection"
+                    root.manager.transition.direction = "right"
+                
         Label:
             text: ""
             size_hint: (1, 0.2)
@@ -516,7 +525,7 @@ WindowManager:
             on_release: 
                 app.root.current = "main"
                 root.manager.transition.direction = "right"
-            size_hint: (1,.12)
+            size_hint: (1,.3)
     
     
 <SeventhScreen>:
@@ -665,8 +674,8 @@ WindowManager:
                 do_scroll_x: False
                 do_scroll_y: True
                 scroll_timeout: 250
-                scroll_distance: 5
-                step: 5
+                scroll_distance: 20
+                step: 30
                 
                 GridLayout:
                     cols: 3
