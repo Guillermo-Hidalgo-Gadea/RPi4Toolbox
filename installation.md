@@ -32,6 +32,25 @@ sudo apt-get install rpi.gpio-common rpi.gpio
 
 sudo pip install gpiozero blinkstick pyusb
 
+## UPDATE
+RPi.GPIO library uses digital PWM signals that lack precision to control servos, causing different bugs in the servo code.
+
+A solution is using the pigpio library instead, with higher pwm precision (https://github.com/joan2937/pigpio).
+Follow the intallation instructions here http://abyz.me.uk/rpi/pigpio/download.html to download and install pigpio.
+
+Then install the Node.js package 
+
+sudo apt install npm
+
+npm install pigpio
+
+Note that the pigpio daemon has to be running as sudo/root before using the library, and killed at the end.
+
+sudo pigpiod
+
+sudo killall pigpiod
+
+# PIGPIO seems to have a special example code for using KIVY, see examples
 
 # Install kivy by running the following commands
 
