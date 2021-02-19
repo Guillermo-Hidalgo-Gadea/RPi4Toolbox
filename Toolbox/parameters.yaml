@@ -1,0 +1,10 @@
+
+hardware:
+    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/hardware.yaml'
+experiment:
+    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/experiment.yaml'
+database:
+    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/database.yaml'
+metadata:
+    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/metadata.yaml'
+
