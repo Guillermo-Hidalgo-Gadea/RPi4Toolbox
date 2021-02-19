@@ -78,11 +78,11 @@ class SeventhScreen(Screen):
         self.ids.description.text = Trial().experiment.description
     
     def edit(self):
-        webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/Toolbox/experiment.yaml")
+        webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/experiment.yaml")
 
 class EigthsScreen(Screen):
     def edit(self):
-        webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/Toolbox/metadata.yaml")
+        webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/metadata.yaml")
 
 class NinethScreen(Screen):
     pass
