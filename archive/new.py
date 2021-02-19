@@ -1,24 +1,81 @@
-from gpiozero import Button
-from picamera import PiCamera
-from datetime import datetime
 from blinkstick import blinkstick
+import pigpio
+import time
 from time import sleep
-from queue import Queue
-
-# Maybe include a popup pinout to mark button connection
-GPIOA = 18 #button A 
-GPIOB = 4 #button B
-
-peckKeyA = Button(GPIOA)
-peckKeyB = Button(GPIOB)
 
 
+# Initialize Pi
+pi = pigpio.pi()
+if not pi.connected:
+   exit()
+
+# Initialize switches
+GPIOA = 18
+GPIOB = 4
+
+pi.set_mode(GPIOA, pigpio.INPUT)
+pi.set_mode(GPIOB, pigpio.INPUT)
+pi.set_pull_up_down(GPIOA, pigpio.PUD_UP)
+pi.set_pull_up_down(GPIOB, pigpio.PUD_UP)
+
+# Initialize LEDs 
 LEDlist = blinkstick.find_all()
 LED0 = LEDlist[0]
 LED1 = LEDlist[1]
 
-camera = PiCamera()
+# Initialize Servo
+servo = 14 
 
+MIN_WIDTH=500
+MAX_WIDTH=2500
+
+
+# Start misc functions
+
+def trial_setting():
+    '''
+    Read trial settings from experimental protocol to assign optimal reward [1]
+    to peckKey A or B
+    '''
+    settings = {0: "A", 1:"B"}
+    return settings
+    
+def reward_time(choice):
+    '''
+    This function defines the feeding time in seconds for the optimal 
+    and suboptimal reward, please change here 
+    '''
+    optimal = 4     # in seconds
+    suboptimal = 1  # in seconds
+    
+    if choice == 0:
+        reward = suboptimal # obviously needs to be adapted for the given trial
+    else:
+        reward = optimal
+    
+    return reward
+
+
+def feeder(choice):
+    '''
+    This functions reads the reward time for the specific choice and 
+    controls the servo for feeding reward
+    '''
+    # choose reward for given choice
+    reward = reward_time(choice)
+    # move feeder forward
+    pi.set_servo_pulsewidth(servo, 500)
+    sleep(0.82)
+    # wait for feeding time
+    pi.set_servo_pulsewidth(servo, 0)
+    sleep(reward)
+    # move feeder backward
+    pi.set_servo_pulsewidth(servo, 2500)
+    sleep(0.82)
+    # stop servo
+    pi.set_servo_pulsewidth(servo, 0)
+    
+        
 def info():
     for bstick in blinkstick.find_all():
         print ("Found device:")
@@ -26,11 +83,6 @@ def info():
         print ("    Description:   " + bstick.get_description())
         print ("    Serial:        " + bstick.get_serial())
         print ("    Current Color: " + bstick.get_color(color_format="hex"))
-
-def capture():
-    timestamp = datetime.now().isoformat()
-    camera.capture("/home/Desktop/%s.jpg" %timestamp)
-    
 
 def off(LED):
     for led in range(8):
@@ -57,73 +109,57 @@ def white(LED):
         LED.set_color(0,led,255,255,255)
 
 def start():
-    red(LED0)
-    red(LED1)
-    sleep(1)
-    off(LED0)
-    off(LED1)
-    sleep(0.5)
+    red(LED0), red(LED1), sleep(1)
+    off(LED0), off(LED1), sleep(0.5)
     
-    yellow(LED0)
-    yellow(LED1)
-    sleep(1)
-    off(LED0)
-    off(LED1)
-    sleep(0.5)
+    yellow(LED0), yellow(LED1), sleep(1)
+    off(LED0), off(LED1), sleep(0.5)
     
-    white(LED0)
-    white(LED1)
-    sleep(1)
-    off(LED0)
-    off(LED1)
-    sleep(0.5)
-    
-def wait_button():
-    queue = Queue()
-    peckKeyA.when_pressed = queue.put
-    peckKeyB.when_pressed = queue.put
-    e = queue.get()
-    if e.pin.number == GPIOA:
-        choice = "peckKeyA"
-    elif e.pin.number == GPIOB:
-        choice = "peckKeyB"
-    return choice
+    white(LED0), white(LED1), sleep(1)
+    off(LED0), off(LED1), sleep(0.5)
 
+def choice(gpio, level, tick):
+    # log choice
+    print("%d" %gpio)
+    # evaluate choice
+    if gpio == 4:
+        choice = 0 # suboptimal
+    elif gpio == 18:
+        choice = 1 # optimal
+    # change choice status
+
+    # dispense reward
+    feeder(choice)
+    # stop trial
+    off(LED0)
+    off(LED1)
 
 # start sequence
 start()
 
-try: 
-    while True:
-        
-        # choose random trial
-        red(LED0)
-        green(LED1)
-        
-        # wait for press
-        choice = wait_button()
-        
-        # evaluate choice
-        if choice == "peckKeyB":
-            print("5€ reward")
-        else: 
-            print("10€ reward")
-        
-        capture()
-        
-        off(LED0)
-        off(LED1)
-                
-        sleep(1.5)
+# activate callback for PeckKeys
+cb1 = pi.callback(GPIOA, pigpio.FALLING_EDGE, choice)
+cb2 = pi.callback(GPIOB, pigpio.FALLING_EDGE, choice)
 
-except KeyboardInterrupt:
-    print("manually aborted")
+# start trial
+settings = trial_setting() # choose trial settings
+red(LED0), green(LED1)
+start_time = time.time()
 
-# stop hardware 
-off(LED0)
-off(LED1)
-peckKeyA.close()
-peckKeyB.close()
+max_time = 300 # 5 min max trial time
+
+while True:
+    current_time = time.time()
+    elapsed_time = current_time - start_time
+
+    if elapsed_time > max_time:
+        print("Finished iterating in: " + str(int(elapsed_time))  + " seconds")
+        break
     
+end_time = time.time()
+# stop hardware 
+off(LED0), off(LED1)
+cb1.cancel(), cb2.cancel()
+pi.stop()
 
     
