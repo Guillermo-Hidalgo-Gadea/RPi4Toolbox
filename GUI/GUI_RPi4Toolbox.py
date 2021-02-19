@@ -5,10 +5,8 @@ from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
-
-import sys
-sys.path.append('/home/hidalggc/Documents/RPi4Toolbox/Toolbox')
-from trial import Trial
+# own modules here
+from Toolbox.trial import Trial
 
 # Define different screens
 class MainScreen(Screen):
