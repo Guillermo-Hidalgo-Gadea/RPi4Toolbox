@@ -1,10 +1,12 @@
 
+RPi4Toolbox: 
+    path: '/home/hidalggc/Documents/RPi4Toolbox'
 hardware:
-    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/hardware.yaml'
+    path: '/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/hardware.yaml'
 experiment:
-    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/experiment.yaml'
+    path: '/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/experiment.yaml'
 database:
-    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/database.yaml'
+    path: '/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/database.yaml'
 metadata:
-    path: '/home/hidalggc/Documents/RPi4Toolbox/Toolbox/metadata.yaml'
+    path: '/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/metadata.yaml'
 

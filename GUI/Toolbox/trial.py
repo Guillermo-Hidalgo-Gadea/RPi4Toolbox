@@ -2,14 +2,13 @@ import pigpio
 import time
 import random
 
-import sys
-sys.path.append('/home/hidalggc/Documents/RPi4Toolbox/Toolbox')
-from stimulus import Stimulus
-from params import Parameters
+
+from Toolbox.stimulus import Stimulus
+from Toolbox.params import Parameters
 
 class Trial:
     def __init__(self):
-        self.experiment = Parameters('/home/hidalggc/Documents/RPi4Toolbox/Toolbox/parameters.yaml').experiment
+        self.experiment = Parameters('/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/parameters.yaml').experiment
         #self.hardware = Parameters('parameters.yaml').hardware
         #self.hardware = 
         #self.condition = 
