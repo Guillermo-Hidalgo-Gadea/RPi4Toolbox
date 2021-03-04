@@ -4,7 +4,7 @@ Experimental toolbox for behavioral experiments with Raspberry Pi 4
 ## Work in progress
 Detailed how-to instructions will be uploaded soon.
 Check the Hardware and Installation readme files for details.
-Please get in touch if you are interested in adapting this toolbox for your own experiments.
+Please **get in touch** if you are interested in adapting this toolbox for your own experiments.
 
 ## Overview
 ![GUI overview](https://github.com/Guillermo-Hidalgo-Gadea/RPi4Toolbox/blob/main/archive/GUI_design.png)
