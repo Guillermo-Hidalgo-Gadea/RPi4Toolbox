@@ -51,6 +51,11 @@ sudo pigpiod
 sudo killall pigpiod
 
 **NOTE1**: pigpiod can be set up to run automatically on boot (see https://gpiozero.readthedocs.io/en/stable/remote_gpio.html)
+- sudo systemctl enable pigpiod
+- sudo systemctl start pigpiod
+- 
+- sudo systemctl disable pigpiod
+
 **NOTE2**: pigpiod allows for remote control of Raspberry Pi pins. Technically the toolbox could be run on a separate computer controlling the RPi4Toolbox (TODO)
 
 # Install kivy by running the following commands
