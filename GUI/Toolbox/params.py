@@ -38,13 +38,22 @@ class Experiment:
     '''
     def __init__(self, edict):
         self.description = edict['description']
-        self.habituation_time = edict['trial']['habituation_time']
-        self.repetitions = edict['trial']['repetitions']
-        self.timeout = edict['trial']['timeout']
-        self.optimal_reward = edict['trial']['optimal_reward']
-        self.suboptimal_reward = edict['trial']['suboptimal_reward']
-        self.optimal_stimuluscolor = edict['trial']['optimal_stimuluscolor']
-        self.suboptimal_stimuluscolor = edict['trial']['suboptimal_stimuluscolor']
+        self.groups = '' #list keys with description
+        self.conditions = ''#list keys with description
+        self.trial = 'trial_training_quantity' # TODO assigned from session outside class
+        self.trials_persession = edict[self.trial]['trials_persession']
+        self.min_sessions = edict[self.trial]['min_sessions']
+        self.criterion = edict[self.trial]['criterion']
+        self.repetitions_pertrial = edict[self.trial]['repetitions_pertrial']
+        self.habituation_time = edict[self.trial]['habituation_time']
+        self.timeout_interval = edict[self.trial]['timeout_interval']
+        self.optimal_key_position = edict[self.trial]['optimal_key_position']
+        self.optimal_key_depth = edict[self.trial]['optimal_key_depth']
+        self.optimal_stimuluscolor = edict[self.trial]['optimal_stimuluscolor']
+        self.suboptimal_key_depth = edict[self.trial]['suboptimal_key_depth']
+        self.suboptimal_stimuluscolor = edict[self.trial]['suboptimal_stimuluscolor']
+        self.optimal_reward = edict[self.trial]['optimal_reward']
+        self.suboptimal_reward = edict[self.trial]['suboptimal_reward']
         
 
 class Database:
@@ -68,7 +77,7 @@ class Metadata:
         self.description = mdict['description']
 
         
-class Parameters: # conisider RENAMING!
+class Parameters: # TODO conisider RENAMING!
     '''
     This class is a wrapper for all the objects above. Hardware, Experiment, 
     Database and Metadata are passed as attributes of Parameters. The specific 
