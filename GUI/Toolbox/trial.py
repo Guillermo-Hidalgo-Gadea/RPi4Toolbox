@@ -9,8 +9,18 @@ import random
 from Toolbox.stimulus import Stimulus
 from Toolbox.params import Parameters
 
+class Session:
+    def __init__(self, subject, experimenter):
+        self.subject = subject
+        self.experimenter = experimenter
+        self.session = 0
+        self.trial = ''
+        self.start_habituation = 0
+        self.trial_count = 0
+
+
 class Trial:
-    def __init__(self):
+    def __init__(self, session):
         # read config files
         self.experiment = Parameters('/GUI/Toolbox/parameters.yaml').experiment
         self.hardware = Parameters('/GUI/Toolbox/parameters.yaml').hardware
@@ -25,12 +35,12 @@ class Trial:
         self.suboptimal_reward = self.experiment.suboptimal_reward
 
         # TODO initialize parameters for metadata
-        self.subject
+        self.subject = session.subject # taken from session class loaded before
         self.date = datetime.datetime.now().strftime('%Y-%m-%d')
-        self.session
-        self.trial
+        self.session = session.session
+        self.trial = session.trial
         self.repetition = 0
-        self.start_habituation #
+        self.start_habituation = session.start_habituation
         self.habituation_time # initialized above
         self.start_stimulus = 0
         self.reactiontime = 0

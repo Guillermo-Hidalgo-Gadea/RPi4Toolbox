@@ -6,7 +6,7 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 # own modules here
-from Toolbox.trial import Trial
+from Toolbox.trial import Trial, Session
 
 # Define different screens
 class MainScreen(Screen):
@@ -28,19 +28,30 @@ class SecondScreen(Screen):
 
 class ThirdScreen(Screen):
 # name: "selection"
-    def check_progress(self):
-        # find subject progress
-        # decide on upcoming trial
-        pass
-    
-    def start_session(self):
-        self.trial_count = 0
+   
+    def load_session(self):
+        # access variables from SecondScreen
+        self.subject = self.manager.ids.experiment.ids.subject.text
+        self.experimenter = self.manager.ids.experiment.ids.experimenter.text
+
+        # check progress for group, condition and session
+        # 1) find subject in metadata
+        # 2) decide on upcoming condition, session, group
+        
+        # Initialize Session object
+        runningSession = Session(self.subject, self.experimenter)
+
+        runningSession.start_habituation = 0
+        runningSession.trial_count = 0
      
  
 class FourthScreen(Screen):
 # name: "instruction"
+    # load session from ThirdScreen
+    runningSession = self.manager.ids.experiment.ids.experimenter.text
+    # give info on trial setup
     pass
- # give info on trial setup
+ 
 
 class FifthScreen(Screen):
 #name: "countdown"
