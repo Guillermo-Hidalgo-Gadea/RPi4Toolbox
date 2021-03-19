@@ -27,17 +27,26 @@ class SecondScreen(Screen):
     # popup with subject info for re-id
 
 class ThirdScreen(Screen):
-    pass
- # check metadata for subject progress
- # decide on upcoming trial
+# name: "selection"
+    def check_progress(self):
+        # find subject progress
+        # decide on upcoming trial
+        pass
+    
+    def start_session(self):
+        self.trial_count = 0
+     
  
 class FourthScreen(Screen):
+# name: "instruction"
     pass
  # give info on trial setup
 
 class FifthScreen(Screen):
-    countdown_seconds = Trial().habituation_time
-    countdown_sarted = False
+#name: "countdown"
+    def on_enter(self):
+        self.countdown_seconds = Trial().habituation_time
+        self.countdown_sarted = False
         
     def update_time(self,dt):
         if self.countdown_sarted:
@@ -57,19 +66,34 @@ class FifthScreen(Screen):
     def start_countdown(self):
         self.on_start()
         self.countdown_sarted = not self.countdown_sarted
+        self.trial_count += 1 
         
 
 class SixthScreen(Screen):
-            
+# name: "trial"
     def start_trial(self):
         # start repetitions
         Trial().start()
 
+    def on_pre_enter(self):
+        self.ids.finish.text = ""
+        
     def on_enter(self):
         self.start_trial()
-        self.ids.finish.text = "Trial finished!"
+        self.ids.finish.text = "Trial " + str(self.trial_count) + " finished!"
 
+    def check_progress(self):
+        # evaluate trial counter 
+        if self.trial_count > Trial().experiment.trials_persession:
+            # finish session
+            # popup?
+            self.ids.finish.text = "Session completed!"
+            self.parent.current = "progress"
+        else:
+            # continue with next trial
+            self.parent.current = "instruction"
 
+        
 # show reps print 
 # save metadata for trial in log yaml
 
@@ -81,8 +105,13 @@ class SeventhScreen(Screen):
         webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/experiment.yaml")
 
 class EigthsScreen(Screen):
+# name: "progress"
     def edit(self):
         webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/metadata.yaml")
+    
+    def export(self):
+        # export metadata from yaml to csv
+        pass
 
 class NinethScreen(Screen):
     pass
