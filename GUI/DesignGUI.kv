@@ -211,7 +211,6 @@ WindowManager:
                 spacing: 10
                 padding: 10
                 
-            
                 Label:
                     text: "Subject ID:"
                     font_size: 30
@@ -267,7 +266,7 @@ WindowManager:
                 Button:
                     text: "Okay"
                     font_size: 25
-                    on_release: Factory.IDPopup().open()
+                    on_release: root.start_session(), Factory.IDPopup().open()
                     pos_hint: {"top": 1, "center_x": 0.5}
                     size_hint: (None, None)
                     width: 200
@@ -312,6 +311,7 @@ WindowManager:
             spacing: 10
             
             Label:
+                id: subjectprogress 
                 text: "This is the progress of the selected subject [b]P007[/b]: Last log was from session 4 on 2021-01-01, number of total trials si 431. Performance so far: 34% (of 80% criteria). Upcoming Session is X from Condition Y. This data is generated from the metadata. Please edit the yaml file if outdated."
                 multiline: True
                 markup: True

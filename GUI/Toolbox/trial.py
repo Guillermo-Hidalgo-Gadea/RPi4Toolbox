@@ -1,22 +1,32 @@
 # Trial Module 
 
-import pigpio
+#import pigpio
 import time
 import datetime
 import random
 
 
-from Toolbox.stimulus import Stimulus
+#from Toolbox.stimulus import Stimulus
 from Toolbox.params import Parameters
 
 class Session:
     def __init__(self, subject, experimenter):
+        # take attributes from manual input
         self.subject = subject
         self.experimenter = experimenter
+        # extract attributes from metadata
+        self.metadata = Parameters('/GUI/Toolbox/parameters.yaml').metadata
         self.session = 0
         self.trial = ''
         self.start_habituation = 0
         self.trial_count = 0
+
+    def check_progress(self):
+        # find subject in metadata
+        # read last condition
+        # read criterion
+        # select current or next condition
+        pass
 
 
 class Trial:

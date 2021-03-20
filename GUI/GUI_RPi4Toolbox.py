@@ -1,12 +1,12 @@
 # GUI for RPi4 Toolbox in Kivy
 import webbrowser
 from kivy.app import App
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 # own modules here
-from Toolbox.trial import Trial, Session
+from Toolbox.trial import Session#, Trial
 
 # Define different screens
 class MainScreen(Screen):
@@ -15,40 +15,42 @@ class MainScreen(Screen):
     # main menu screen
 
 class SecondScreen(Screen):
-    # clear input boxes
+# name:"experiment"
+
+    # initialize empty text input
     subject = ObjectProperty(None)
     experimenter = ObjectProperty(None)
 
-    def clear(self):
-        self.subject.text = ""
-        self.experimenter.text = ""
+    def on_enter(self):
+        self.subject.text = ''
+        self.experimenter.text = ''
         
     # ask for subject id and experimenter
+    def start_session(self):
+        print('Subject: ', self.subject.text,' Experimenter: ', self.experimenter.text)
+
     # popup with subject info for re-id
 
 class ThirdScreen(Screen):
 # name: "selection"
-   
-    def load_session(self):
-        # access variables from SecondScreen
-        self.subject = self.manager.ids.experiment.ids.subject.text
-        self.experimenter = self.manager.ids.experiment.ids.experimenter.text
 
-        # check progress for group, condition and session
-        # 1) find subject in metadata
-        # 2) decide on upcoming condition, session, group
-        
-        # Initialize Session object
-        runningSession = Session(self.subject, self.experimenter)
+   # update text subject progress
+    def on_enter(self):
+        # load running session
+        running_session = Session(self.manager.ids.experiment.ids.subject.text, self.manager.ids.experiment.ids.experimenter.text)
+        print('Subject: ',running_session.subject)
+        print('Experimenter: ',running_session.experimenter)
+        print('Session: ',running_session.session)
 
-        runningSession.start_habituation = 0
-        runningSession.trial_count = 0
+
+        #runningSession.start_habituation = 0
+        #runningSession.trial_count = 0
      
  
 class FourthScreen(Screen):
 # name: "instruction"
     # load session from ThirdScreen
-    runningSession = self.manager.ids.experiment.ids.experimenter.text
+    #runningSession = self.manager.ids.experiment.ids.experimenter.text
     # give info on trial setup
     pass
  
