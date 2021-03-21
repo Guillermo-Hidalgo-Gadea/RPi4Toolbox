@@ -713,14 +713,26 @@ WindowManager:
                     halign: 'justify'
                     valign: 'top'
                 
-            Button:
-                text: "Edit"
-                font_size: 25
-                on_release: root.edit()
-                size_hint: (None, None)
-                width: 200
-                height: 50
-                pos_hint: {"center_x": 0.5, "top":0.5}
+            GridLayout:
+                cols: 2
+                
+                Button:
+                    text: "Edit"
+                    font_size: 25
+                    on_release: root.edit()
+                    size_hint: (None, None)
+                    width: 200
+                    height: 50
+                    pos_hint: {"center_x": 0, "top":0.5}
+
+                Button:
+                    text: "Export"
+                    font_size: 25
+                    on_release: root.export_metadata()
+                    size_hint: (None, None)
+                    width: 200
+                    height: 50
+                    pos_hint: {"center_x": 1, "top":0.5}
                     
             
                 

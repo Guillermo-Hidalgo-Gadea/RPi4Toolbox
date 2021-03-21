@@ -1,87 +1,86 @@
-# Metadata module to save metadata as dictionary, save trial metadata as yaml and export metadata as csv 
+# Metadata module to save metadata as dictionary, save trial metadata as yaml and export metadata as csv
 
-#import pandas as pd
 import yaml
-import time
 import datetime
 import pandas as pd
+from pathlib import Path
 
-## SAVE METADATA
-# Initialize dictionary from existing metadata or create new
-try:
-    # if metadata exists, read keys to initialize dictionary
-    with open('/home/hidalggc/Documents/metadata.yaml', 'r') as yamlfile:
-        metadata = yaml.safe_load(yamlfile)
-        dictionary = dict.fromkeys(metadata.keys(), [])
-except IOError:
-    # if no metadata file exists initialize new empty ditionary
-    dictionary = {'subject':[],'date':[],'session':[],'trial':[],'repetition':[],
-                   'start_habituation':[],'start_stimulus':[],'reactiontime_keypeck':[],
-                   'optimal_stimulus':[],'key_choice':[],'reward':[],'col1':[]}
+class Metadata:
+    def __init__(self):
+        base_path = Path().parent
+        self.metadata_dir = (base_path / "RPi4Toolbox/GUI/Toolbox/metadata.yaml").resolve()
+        self.subject = ''
+        self.experimenter = ''
+        self.date = ''
+        self.session = 0
+        self.condition = ''
+        self.trial = 0
+        self.repetition = 0
+        self.start_habituation = ''
+        self.start_stimulus = ''
+        self.reactiontime_keypeck = ''
+        self.optimal_stimulus = ''
+        self.key_choice = ''
+        self.reward = 0
 
-# Generate Dummy data
-for i in range(5):
-    
-    # timestamps
-    start_session = datetime.datetime.now()
-    time.sleep(1)
-    start_stimulus = datetime.datetime.now()
-    time.sleep(1)
-    start_key = datetime.datetime.now()
-    diff = start_key - start_stimulus
-    
-    # run trial and save metadata
-    subject = 'p009'
-    date = start_session.strftime('%Y-%m-%d')
-    session = 3
-    trial = 'training_autoshape'
-    repetition = 8
-    start_habituation = start_session.strftime('%H:%M:%S.%f')
-    start_stimulus = start_stimulus.strftime('%H:%M:%S.%f')
-    reactiontime_keypeck = str(diff)
-    optimal_stimulus = 'left'
-    key_choice = 'right' 
-    reward = 2
-    
-    # update dictionary 
-    dictionary['subject'].append(subject)
-    dictionary['date'].append(date)
-    dictionary['session'].append(session)
-    dictionary['trial'].append(trial)
-    dictionary['repetition'].append(repetition)
-    dictionary['start_habituation'].append(start_habituation)
-    dictionary['start_stimulus'].append(start_stimulus)
-    dictionary['reactiontime_keypeck'].append(reactiontime_keypeck)
-    dictionary['optimal_stimulus'].append(optimal_stimulus)
-    dictionary['key_choice'].append(key_choice)
-    dictionary['reward'].append(reward)
+        # Initialize dictionary from existing metadata or create new
+        try:
+            # if metadata exists, read keys to initialize dictionary
+            with open(self.metadata_dir, 'r') as yamlfile:
+                metadata = yaml.safe_load(yamlfile)
+                self.dictionary = dict.fromkeys(metadata.keys(), [])
+        except IOError:
+            # if no metadata file exists initialize new empty ditionary
+            self.dictionary = {'subject':[],'experimenter':[],'date':[],'condition':[],'session':[],'trial':[],'repetition':[],
+                        'start_habituation':[],'start_stimulus':[],'reactiontime_keypeck':[],
+                        'optimal_stimulus':[],'key_choice':[],'reward':[],'col1':[]}
 
-    
-# SAVE TO YAML at the end of session
-try:
-    # if metadata exists, append new data
-    with open('/home/hidalggc/Documents/metadata.yaml', 'r') as yamlfile:
-        metadata = yaml.safe_load(yamlfile)
-        metadata.update(dictionary)
-    with open('/home/hidalggc/Documents/metadata.yaml', 'w') as file:
-        yaml.safe_dump(metadata, file, sort_keys=False)
-except IOError:
-    # if no metadata exists, create new file
-    with open('/home/hidalggc/Documents/metadata.yaml', 'w') as file:
-        yaml.dump(dictionary, file, sort_keys=False)
+    def append(self):
+        # update dictionary with session related metadata
+        self.dictionary['subject'].append(self.subject)
+        self.dictionary['experimenter'].append(self.experimenter)
+        self.dictionary['date'].append(self.date)
+        self.dictionary['condition'].append(self.condition)
+        self.dictionary['session'].append(self.session)
+        # update dictionary with trial related metadata
+        self.dictionary['trial'].append(self.trial)
+        self.dictionary['repetition'].append(self.repetition)
+        self.dictionary['start_habituation'].append(self.start_habituation)
+        self.dictionary['start_stimulus'].append(self.start_stimulus)
+        self.dictionary['reactiontime_keypeck'].append(self.reactiontime_keypeck)
+        self.dictionary['optimal_stimulus'].append(self.optimal_stimulus)
+        self.dictionary['key_choice'].append(self.key_choice)
+        self.dictionary['reward'].append(self.reward)
 
+    def save(self):
+        # SAVE TO YAML at the end of session
+        try:
+            # if metadata exists, append new data
+            with open(self.metadata_dir, 'r') as yamlfile:
+                metadata = yaml.safe_load(yamlfile)
+                metadata.update(self.dictionary)
+            with open(self.metadata_dir, 'w') as file:
+                yaml.safe_dump(metadata, file, sort_keys=False)
+        except IOError:
+            # if no metadata exists, create new file
+            with open(self.metadata_dir, 'w') as file:
+                yaml.dump(self.dictionary, file, sort_keys=False)
 
-## EXPORT METADATA 
-with open('/home/hidalggc/Documents/metadata.yaml', 'r') as yamlfile:
-    data = yaml.safe_load(yamlfile)
+def export():
+    """
+    This function exports the metadata.yaml file to a standard metadata.csv and cleans the
+    metadata.yaml history after moving it to backup.
+    """
 
-metadata = pd.DataFrame.from_dict(data, orient='index')
-metadata = metadata.transpose()
+    ## EXPORT METADATA
+    base_path = Path().parent
+    file_path = (base_path / "../RPi4Toolbox/GUI/Toolbox/metadata.yaml").resolve()
+    with open(file_path, 'r') as yamlfile:
+        data = yaml.safe_load(yamlfile)
+    metadata = pd.DataFrame.from_dict(data, orient='index')
+    metadata = metadata.transpose()
+    filename = str(file_path)[0:-5]+'_' + datetime.datetime.now().strftime('%Y-%m-%d') + '.csv'
+    metadata.to_csv(filename, index = False, header=True, encoding='utf-8')
 
-filename = '/home/hidalggc/Documents/metadata_' + datetime.datetime.now().strftime('%Y-%m-%d') + '.csv'
-
-metadata.to_csv(filename, index = False, header=True, encoding='utf-8')
-
-# move metadata csv and yaml file to backup
-
-# erase yaml file to keep it slim
+    # move metadata csv and yaml file to sciebo backup
+    # erase yaml file to keep it slim

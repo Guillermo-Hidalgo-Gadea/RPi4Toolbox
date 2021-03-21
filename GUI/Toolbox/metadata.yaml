@@ -1,3 +1,40 @@
-
-metadata:
-    description: 'This file will cointain relevant data to each trial conducted in the experiment. The log-file structure will be adjusted to classical csv tables.'
+subject:
+- ''
+- ''
+experimenter:
+- ''
+- ''
+date:
+- ''
+- ''
+condition:
+- ''
+- ''
+session:
+- 0
+- 0
+trial:
+- 0
+- 0
+repetition:
+- 0
+- 0
+start_habituation:
+- ''
+- ''
+start_stimulus:
+- ''
+- ''
+reactiontime_keypeck:
+- ''
+- ''
+optimal_stimulus:
+- ''
+- ''
+key_choice:
+- ''
+- ''
+reward:
+- 0
+- 0
+col1: []

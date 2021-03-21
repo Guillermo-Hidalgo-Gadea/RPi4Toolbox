@@ -1,6 +1,6 @@
 # Trial Module 
 
-#import pigpio
+import pigpio
 import time
 import datetime
 import random
@@ -8,26 +8,31 @@ import random
 
 #from Toolbox.stimulus import Stimulus
 from Toolbox.params import Parameters
+from Toolbox.metadata import Metadata
 
 class Session:
     def __init__(self, subject, experimenter):
         # take attributes from manual input
         self.subject = subject
         self.experimenter = experimenter
-        # extract attributes from metadata
-        self.metadata = Parameters('/GUI/Toolbox/parameters.yaml').metadata
-        self.session = 0
-        self.trial = ''
-        self.start_habituation = 0
-        self.trial_count = 0
+        self.date = datetime.datetime.now().strftime('%Y-%m-%d')
+        
+        # TODO extract attributes from database
+        # could be read from metadata, but metadata file will be getting large quickly
+        # instead, metadata.yaml is exported as csv regularly and erased to start new file. 
+        # Relevant info to initialize session is passed to subject database instead. 
+        self.database = Parameters('/GUI/Toolbox/parameters.yaml').database
+        self.experiment = Parameters('/GUI/Toolbox/parameters.yaml').experiment
+        self.condition = self.database[self.subject].condition
+        self.session = self.database[self.subject].session
+        self.trials_persession = self.experiment[self.condition].trials_persession
+        
+        # TODO get instruction for session/trial
+        self.instructions = ''
 
-    def check_progress(self):
-        # find subject in metadata
-        # read last condition
-        # read criterion
-        # select current or next condition
-        pass
-
+        # initialize empty attributes
+        self.start_habituation = 0 #update attribute on created object
+        self.trial_count = 0 #update attribute on created object
 
 class Trial:
     def __init__(self, session):
@@ -35,6 +40,15 @@ class Trial:
         self.experiment = Parameters('/GUI/Toolbox/parameters.yaml').experiment
         self.hardware = Parameters('/GUI/Toolbox/parameters.yaml').hardware
         
+        # get session attributes
+        self.subject = session.subject
+        self.experimenter = session.experimenter
+        self.date = datetime.datetime.now().strftime('%Y-%m-%d')
+        self.condition = session.condition
+        self.session = session.session
+        self.trial = session.trial
+        self.start_habituation = session.start_habituation
+
         # set trial parameters
         self.habituation_time = self.experiment.habituation_time # in seconds
         self.repetitions_pertrial = self.experiment.repetitions_pertrial
@@ -44,19 +58,15 @@ class Trial:
         self.optimal_reward = self.experiment.optimal_reward
         self.suboptimal_reward = self.experiment.suboptimal_reward
 
-        # TODO initialize parameters for metadata
-        self.subject = session.subject # taken from session class loaded before
-        self.date = datetime.datetime.now().strftime('%Y-%m-%d')
-        self.session = session.session
-        self.trial = session.trial
+        # initialize trial parameters for metadata
         self.repetition = 0
-        self.start_habituation = session.start_habituation
-        self.habituation_time # initialized above
         self.start_stimulus = 0
         self.reactiontime = 0
         self.optimal_stimulus = ''
         self.key_choice = ''
         self.reward = 0
+        
+        
 
         #random for now but pseudorandom from schedule/metadata
         self.setting = [random.choice(["left", "right"]) for rep in range(self.repetitions_pertrial)]
@@ -65,10 +75,6 @@ class Trial:
         self.status = False # controls while loop 
         self.start_time = 0
 
-        # TODO trial or session related?
-        #self.condition = 
-        #self.session = 
-        #self.instructions = 
         
         #TODO read from real hardware.yaml
         # Switches
@@ -139,6 +145,31 @@ class Trial:
         # stop trial
         self.stop()
 
+    def pass_metadata(self):
+        # create metadata object
+        self.metadata = Metadata()
+
+        # dump data from trial to metadata object
+        self.metadata.subject = self.subject
+        self.metadata.experimenter = self.experimenter
+        self.metadata.date = self.date
+        self.metadata.session = self.session
+        self.metadata.condition = self.condition
+        self.metadata.trial = self.trial
+        self.metadata.repetition = self.repetition
+        self.metadata.start_habituation = self.start_habituation
+        self.metadata.start_stimulus = self.start_stimulus
+        self.metadata.reactiontime_keypeck = self.reactiontime
+        self.metadata.optimal_stimulus = self.optimal_stimulus
+        self.metadata.key_choice = self.key_choice
+        self.metadata.reward = self.reward
+
+        # update metadata with append method
+        self.metadata.append()
+
+        # save metadata
+        self.metadata.save()
+
     def start(self):
         for rep in range(self.repetitions_pertrial):
         
@@ -176,13 +207,11 @@ class Trial:
             self.cb1.cancel()
             self.cb2.cancel()
 
-            # TODO save metadata to dict
-        
+            # save data for each repetition
+            self.pass_metadata()
+            
         self.pi.stop()
         # TODO save metadata to yaml
 
-        
 
 #Trial().start()
-
-    

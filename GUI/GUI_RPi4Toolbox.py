@@ -1,12 +1,15 @@
 # GUI for RPi4 Toolbox in Kivy
 import webbrowser
+import os
+from pathlib import Path
 from kivy.app import App
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
-# own modules here
-from Toolbox.trial import Session#, Trial
+
+from Toolbox.trial import Session, Trial
+from Toolbox.metadata import export
 
 # Define different screens
 class MainScreen(Screen):
@@ -41,7 +44,6 @@ class ThirdScreen(Screen):
         print('Subject: ',running_session.subject)
         print('Experimenter: ',running_session.experimenter)
         print('Session: ',running_session.session)
-
 
         #runningSession.start_habituation = 0
         #runningSession.trial_count = 0
@@ -115,16 +117,22 @@ class SeventhScreen(Screen):
         self.ids.description.text = Trial().experiment.description
     
     def edit(self):
-        webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/experiment.yaml")
+        base_path = Path().parent
+        file_path = (base_path / "../RPi4Toolbox/GUI/Toolbox/experiment.yaml").resolve()
+        webbrowser.open(str(file_path))
 
 class EigthsScreen(Screen):
 # name: "progress"
     def edit(self):
-        webbrowser.open("/home/hidalggc/Documents/RPi4Toolbox/GUI/Toolbox/metadata.yaml")
+        base_path = Path().parent
+        file_path = (base_path / "../RPi4Toolbox/GUI/Toolbox/metadata.yaml").resolve()
+        webbrowser.open(str(file_path))
     
-    def export(self):
+    # TODO create button
+    def export_metadata(self):
         # export metadata from yaml to csv
-        pass
+        export()
+        
 
 class NinethScreen(Screen):
     pass
