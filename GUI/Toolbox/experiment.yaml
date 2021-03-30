@@ -57,7 +57,7 @@ experiment:
         criterion: 80 # What percentage of rewarded outputs have to be preceeded by key pecks [t-5 sec] to indicate autoshaping?
         repetitions_pertrial: 5 # How many stimulus-choice-reward intervals should be repeted within a trial?
         # configuration of temporal constraints
-        habituation_time: 120 # How many seconds habituation time shoul pass between subject handling and trial start?
+        habituation_time: 12 # How many seconds habituation time shoul pass between subject handling and trial start?
         timeout_interval: 120 # How many seconds long should be the timeout interval before the repetition is ended by inactivity?
         # configuration of position and color of stimulus key-pair
         optimal_key_position: 'right/left' # At what position (relative to subject) should be the optimal key? TBD randomized vs pseudorandomized

@@ -13,6 +13,10 @@ from Toolbox.metadata import export
 
 # Define different screens
 class MainScreen(Screen):
+    def on_enter(self):
+        # update params.yaml
+        pass
+    
     def homepage(self):
         webbrowser.open("https://guillermohidalgogadea.com/#contact")
     # main menu screen
@@ -40,10 +44,11 @@ class ThirdScreen(Screen):
    # update text subject progress
     def on_enter(self):
         # load running session
-        running_session = Session(self.manager.ids.experiment.ids.subject.text, self.manager.ids.experiment.ids.experimenter.text)
-        print('Subject: ',running_session.subject)
-        print('Experimenter: ',running_session.experimenter)
-        print('Session: ',running_session.session)
+        self.running_session = Session(self.manager.ids.experiment.ids.subject.text, self.manager.ids.experiment.ids.experimenter.text)
+        print('Subject: ', self.running_session.subject)
+        print('Experimenter: ', self.running_session.experimenter)
+        print('Session: ', self.running_session.session)
+        print('Trial: ', self.running_session.trial_count)
 
         #runningSession.start_habituation = 0
         #runningSession.trial_count = 0
@@ -52,7 +57,6 @@ class ThirdScreen(Screen):
 class FourthScreen(Screen):
 # name: "instruction"
     # load session from ThirdScreen
-    #runningSession = self.manager.ids.experiment.ids.experimenter.text
     # give info on trial setup
     pass
  
@@ -60,7 +64,7 @@ class FourthScreen(Screen):
 class FifthScreen(Screen):
 #name: "countdown"
     def on_enter(self):
-        self.countdown_seconds = Trial().habituation_time
+        self.countdown_seconds = Trial(self.manager.ids.selection.running_session).habituation_time
         self.countdown_sarted = False
         
     def update_time(self,dt):
@@ -81,27 +85,27 @@ class FifthScreen(Screen):
     def start_countdown(self):
         self.on_start()
         self.countdown_sarted = not self.countdown_sarted
-        self.trial_count += 1 
+        self.manager.ids.selection.running_session.trial_count = self.manager.ids.selection.running_session.trial_count + 1 
         
 
 class SixthScreen(Screen):
 # name: "trial"
     def start_trial(self):
         # start repetitions
-        Trial().start()
+        Trial(self.manager.ids.selection.running_session).start()
 
     def on_pre_enter(self):
         self.ids.finish.text = ""
         
     def on_enter(self):
         self.start_trial()
-        self.ids.finish.text = "Trial " + str(self.trial_count) + " finished!"
+        self.ids.finish.text = "Trial " + str(self.manager.ids.selection.running_session.trial_count) + " finished!"
 
     def check_progress(self):
         # evaluate trial counter 
-        if self.trial_count > Trial().experiment.trials_persession:
+        if self.manager.ids.selection.running_session.trial_count >= self.manager.ids.selection.running_session.trials_persession:
             # finish session
-            # popup?
+            # TODO: popup?
             self.ids.finish.text = "Session completed!"
             self.parent.current = "progress"
         else:
@@ -114,18 +118,18 @@ class SixthScreen(Screen):
 
 class SeventhScreen(Screen):
     def on_pre_enter(self):
-        self.ids.description.text = Trial().experiment.description
+        self.ids.description.text = Trial(Session(0,0)).experiment.description
     
     def edit(self):
         base_path = Path().parent
-        file_path = (base_path / "../RPi4Toolbox/GUI/Toolbox/experiment.yaml").resolve()
+        file_path = (base_path / "Toolbox/experiment.yaml").resolve()
         webbrowser.open(str(file_path))
 
 class EigthsScreen(Screen):
 # name: "progress"
     def edit(self):
         base_path = Path().parent
-        file_path = (base_path / "../RPi4Toolbox/GUI/Toolbox/metadata.yaml").resolve()
+        file_path = (base_path / "Toolbox/metadata.yaml").resolve()
         webbrowser.open(str(file_path))
     
     # TODO create button

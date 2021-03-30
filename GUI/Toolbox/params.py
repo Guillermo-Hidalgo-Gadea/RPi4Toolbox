@@ -1,4 +1,5 @@
 import yaml
+from pathlib import Path
 
 class Hardware:
     '''
@@ -66,15 +67,6 @@ class Database:
         self.samples = list(ddict.keys())
         self.description = ddict['sample1']['description']
         
-class Metadata:
-    '''
-    Metadata class loads the progress form past trials in the loaded experiment from
-    the metadata.yaml config file. This metadata will be helpful to display subjects' 
-    progress during the experiment to guide the experimenter as well as to assign the
-    subject to the upcoming scheduled trial, session, etc.
-    '''
-    def __init__(self, mdict):
-        self.description = mdict['description']
 
         
 class Parameters: # TODO conisider RENAMING!
@@ -90,36 +82,33 @@ class Parameters: # TODO conisider RENAMING!
     def __init__(self, file):
         
         # distribution to separate yaml files for convenience
-        with open(file, 'r') as f:
-            files = yaml.safe_load(f)
+        #with open(file, 'r') as f:
+        #    files = yaml.safe_load(f)
         
         # hardware parameters
-        hpath = files['hardware']['path']
+        hpath = (Path().parent / "Toolbox/hardware.yaml").resolve()
+        #hpath = files['hardware']['path']
         with open(hpath, 'r') as path:
             hparams = yaml.safe_load(path)
         hdict = hparams['hardware']
         self.hardware = Hardware(hdict)
         
         # experiment parameters
-        epath = files['experiment']['path']
+        epath = (Path().parent / "Toolbox/experiment.yaml").resolve()
+        #epath = files['experiment']['path']
         with open(epath, 'r') as path:
             eparams = yaml.safe_load(path)
         edict = eparams['experiment']
         self.experiment = Experiment(edict)
         
         # database parameters
-        dpath = files['database']['path']
+        dpath = (Path().parent / "Toolbox/database.yaml").resolve()
+        #dpath = files['database']['path']
         with open(dpath, 'r') as path:
             dparams = yaml.safe_load(path)
         ddict = dparams['database']
         self.database = Database(ddict)
         
-        # metadata parameters
-        mpath = files['metadata']['path']
-        with open(mpath, 'r') as path:
-            mparams = yaml.safe_load(path)
-        mdict = mparams['metadata']
-        self.metadata = Metadata(mdict)
 
 
 # parameters file is written by experimenter clicking

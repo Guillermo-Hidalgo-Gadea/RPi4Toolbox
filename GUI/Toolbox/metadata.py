@@ -8,7 +8,7 @@ from pathlib import Path
 class Metadata:
     def __init__(self):
         base_path = Path().parent
-        self.metadata_dir = (base_path / "RPi4Toolbox/GUI/Toolbox/metadata.yaml").resolve()
+        self.metadata_dir = (base_path / "Toolbox/metadata.yaml").resolve()
         self.subject = ''
         self.experimenter = ''
         self.date = ''
@@ -74,7 +74,7 @@ def export():
 
     ## EXPORT METADATA
     base_path = Path().parent
-    file_path = (base_path / "../RPi4Toolbox/GUI/Toolbox/metadata.yaml").resolve()
+    file_path = (base_path / "Toolbox/metadata.yaml").resolve()
     with open(file_path, 'r') as yamlfile:
         data = yaml.safe_load(yamlfile)
     metadata = pd.DataFrame.from_dict(data, orient='index')

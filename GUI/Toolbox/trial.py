@@ -4,9 +4,10 @@ import pigpio
 import time
 import datetime
 import random
+from pathlib import Path
 
 
-#from Toolbox.stimulus import Stimulus
+from Toolbox.stimulus import Stimulus
 from Toolbox.params import Parameters
 from Toolbox.metadata import Metadata
 
@@ -16,16 +17,16 @@ class Session:
         self.subject = subject
         self.experimenter = experimenter
         self.date = datetime.datetime.now().strftime('%Y-%m-%d')
-        
+        self.parameter_path = (Path().parent / "Toolbox/metadata.yaml").resolve()
         # TODO extract attributes from database
         # could be read from metadata, but metadata file will be getting large quickly
         # instead, metadata.yaml is exported as csv regularly and erased to start new file. 
         # Relevant info to initialize session is passed to subject database instead. 
-        self.database = Parameters('/GUI/Toolbox/parameters.yaml').database
-        self.experiment = Parameters('/GUI/Toolbox/parameters.yaml').experiment
-        self.condition = self.database[self.subject].condition
-        self.session = self.database[self.subject].session
-        self.trials_persession = self.experiment[self.condition].trials_persession
+        self.database = Parameters(self.parameter_path).database
+        self.experiment = Parameters(self.parameter_path).experiment
+        self.condition = 'dummy'#self.database[self.subject].condition
+        self.session = 1#self.database[self.subject].session
+        self.trials_persession = 5#self.experiment[self.condition].trials_persession
         
         # TODO get instruction for session/trial
         self.instructions = ''
@@ -37,8 +38,9 @@ class Session:
 class Trial:
     def __init__(self, session):
         # read config files
-        self.experiment = Parameters('/GUI/Toolbox/parameters.yaml').experiment
-        self.hardware = Parameters('/GUI/Toolbox/parameters.yaml').hardware
+        self.parameter_path = (Path().parent / "Toolbox/metadata.yaml").resolve()
+        self.experiment = Parameters(self.parameter_path).experiment
+        self.hardware = Parameters(self.parameter_path).hardware
         
         # get session attributes
         self.subject = session.subject
@@ -46,7 +48,7 @@ class Trial:
         self.date = datetime.datetime.now().strftime('%Y-%m-%d')
         self.condition = session.condition
         self.session = session.session
-        self.trial = session.trial
+        self.trial = session.trial_count
         self.start_habituation = session.start_habituation
 
         # set trial parameters
