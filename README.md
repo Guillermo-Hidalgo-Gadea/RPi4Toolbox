@@ -1,4 +1,4 @@
-# RPi4Toolbox
+# RPi4Toolbox [<img src="https://github.com/Guillermo-Hidalgo-Gadea/personal-academic-website/blob/master/assets/images/icon.png" alt="logo" align="right" width="100"/>](https://guillermohidalgogadea.com/)
 Experimental toolbox for behavioral experiments with Raspberry Pi 4
 
 ## Work in progress
