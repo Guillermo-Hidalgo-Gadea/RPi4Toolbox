@@ -1,0 +1,32 @@
+
+experiment:
+    description: 'This pilot experiment will consist of a maze navigation with subsequent 2AFC task. Keypecking will be rewarded and food quantity maximisation will be set against key distance/effort/reachability. First, feeder will be consistently preceeded by stimulus and subjects develop autoshaping, pecking on stimulus previous to feeder. Then, a second alternative key is presented with (better or worse?) reward and subjects learn to discriminate optimal choice. Next, prefered key varies in depth, and big-reward choice becomes suboptimal behind the reachability threshold. NOTE: safe option remains always on baseline depth. Result: Optimality tipping point is *depth* dependent. On the second part of the experiment, subjects will be wearing a robotic arm (group dependent). First, subjects only have to habituate on wearing the robotic arm by navigating the maze and pecking prefered key of equally available options. Next, keys will be lowered from beak to arm height and moved behind reachability threshold from training2, subjects will learn to press keys with robotic arm. NOTE: active training may be needed if coordinated movement missing. Next, best attractive key varies in depth, and big reward choice becomes suboptimal behind new reachability threshold. NOTE: arm length is not necessarily reachability space, as distant targets are difficult to get with tool. Result: Optimality tipping point is *depth* dependent AND *bodily* dependent. Last, subjects change the robotic arm group and repeat the last discrimination task. NOTE: group 1 changes from long to short (easy habituation less reachability) and group 2 changes from short to long (difficult habituation more reachability). Result: Optimality tipping point is adapted to new arm, but still trying for old arm. Result 2: Change in reachability is not by arm per se but by length of robotic arm.'
+    
+    groups:
+        group1: long arm
+        group2: short arm
+        
+    conditions:
+        training0: 'Subjects autoshape and peck for reward'
+        training1: 'Subjects discriminate keys, i.e. reward quantities'
+        training2: 'Subjects discriminate keys and depth, i.e. reachability'
+        test0: 'Subjects habituate to wear robotic arm on training 1'
+        test1: 'Subjects learn to use robotic arm to press distant & low button ???'
+        test2: 'Subjects replicate training 2 key descrimination on reachability'
+        transfer0: 'Subjects replicate test 3 key descrimination changing group'
+        transfer1: 'Subjects replicate training 2 after X time'
+        transfer2: 'Subjects replicate test 3 after X time'
+        
+    # This trial will be embedded in a session within a condition
+    trial:
+        habituation_time: 5 # in seconds
+        repetitions: 10 # number of repetitions per trial
+        timeout: 300 # in seconds
+        optimal_reward: 3 # feeding time in seconds
+        suboptimal_reward: 1 # feeding time in seconds
+        optimal_stimuluscolor: "lime" # see color list here: https://www.w3.org/TR/css-color-3/
+        suboptimal_stimuluscolor: "black"
+        
+        
+        
+    

@@ -1,0 +1,991 @@
+#:import Factory kivy.factory.Factory
+
+WindowManager:
+    MainScreen:
+    SecondScreen:
+    ThirdScreen:
+    FourthScreen:
+    FifthScreen:
+    SixthScreen:
+    SeventhScreen:
+    EigthsScreen:
+    NinethScreen:
+
+
+<IDPopup@Popup>
+    auto_dismiss: False
+    size_hint: (0.7, 0.7)
+    pos_hint: {"top": 0.9}
+    title: "Is this your subject?"
+    
+    BoxLayout:
+        orientation: "vertical"
+        
+        Image:
+            source: "subjectID.png"
+            size: self.texture_size
+            pos_hint: {"top": 0.5}
+            
+        Label:
+            text: "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+            multiline: True
+            text_size: None, None
+            size: self.texture_size
+            halign: 'left'
+            valign: 'middle' 
+            
+        BoxLayout:
+            orientation: "horizontal"
+            
+            Button:
+                text: "Yes"
+                font_size: 20
+                on_release: 
+                    app.root.current = "selection"
+                on_press: root.dismiss()
+                size_hint: (0.5, 0.3)
+            
+            Button:
+                text: "No"
+                font_size: 20
+                on_release: root.dismiss()
+                size_hint: (0.5, 0.3)
+
+
+<MainScreen>:
+    name: "main"
+    # This Window displays main menu
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        spacing: 0
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+              
+            Label: 
+                text: "Welcome to the Raspberry Pi 4 Toolbox"
+                font_size: 25
+                text_size: root.width/1.3, None
+                multiline: True
+                size: self.texture_size
+                halign: 'center'
+                pos_hint: {"top":1}
+                size_hint: 1, 0.5
+                
+            Label: 
+                text: "Choose one of the options below to (1) start an experiment, (2) check or edit the experimental protocol, (3) review the progress of the ongoing experiment, or (4) to have a look at the subject IDs in the Database"
+                multiline: True
+                font_size: 20
+                text_size: root.width/1.3, None
+                size: self.texture_size
+                halign: 'justify'
+                pos_hint: {"top":1}
+                size_hint: 1, 0.5
+    
+                  
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 10
+                padding: 10
+                            
+                Button:
+                    text: "Start\nExperiment"
+                    font_size: 25
+                    size_hint: 1, 1
+                    halign: 'center'
+                    on_release: 
+                        app.root.current = "experiment"
+                        root.manager.transition.direction = "left"
+                    
+                Button:
+                    text: "Experimental\nProtocol"
+                    font_size: 25
+                    size_hint: 1, 1
+                    halign: 'center'
+                    on_release: 
+                        app.root.current = "protocol"
+                        root.manager.transition.direction = "left"
+                    
+                Button:
+                    text: "Check\nProgress"
+                    font_size: 25
+                    size_hint: 1, 1
+                    halign: 'center'
+                    on_release: 
+                        app.root.current = "progress"
+                        root.manager.transition.direction = "left"
+                    
+                Button:
+                    text: "Subject\nDatabase"
+                    font_size: 25
+                    size_hint: 1, 1
+                    halign: 'center'
+                    on_release: 
+                        app.root.current = "IDs"
+                        root.manager.transition.direction = "left"
+        
+        # Spacer 3/4
+        Label: 
+            text: ""
+            multiline: True
+            font_size: 20
+            size: self.texture_size
+            size_hint: 1, 0.1
+            halign: 'right'
+            valign: 'middle'
+            
+            
+        # FOOTER 4/4
+        Button:
+            markup: True
+            text: "[b]RPi4Toolbox[/b] (C) 2021 GuillermoHidalgoGadea.com"
+            on_release: root.homepage()
+            size_hint: (1,.1)
+        
+    
+<SecondScreen>:
+    name: "experiment"
+    # This Window starts the experiment
+    
+    # Define variables 
+    subject: subject
+    experimenter: experimenter
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            
+            Label: 
+                text: "To start the experiment please enter the following information:"
+                multiline: True
+                font_size: 20
+                text_size: root.width/1.3, None
+                size: self.texture_size
+                halign: 'center'
+                pos_hint: {"top": 1}
+                           
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 10
+                padding: 10
+                
+            
+                Label:
+                    text: "Subject ID:"
+                    font_size: 30
+                    size_hint: (None,.5)
+                    width: 500
+                    halign: 'right'
+                    pos_hint: {"top": 0}
+                        
+                TextInput:
+                    id: subject
+                    multiline: False
+                    size_hint: (None,0.9)
+                    markup: True
+                    bold: True
+                    font_size: 25
+                    width: root.width/4
+                    pos_hint: {"top": 0}
+                    
+                Label: 
+                    text:""
+                            
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 10
+                padding: 10
+                    
+                    
+                Label:
+                    text: "Experimenter:"
+                    font_size: 30
+                    size_hint: (None,.5)
+                    width: 500
+                    halign: 'right'
+                    pos_hint: {"top": .5}
+                            
+                TextInput:
+                    id: experimenter
+                    multiline: False
+                    size_hint: (None,0.9)
+                    markup: True
+                    bold: True
+                    font_size: 25
+                    width: root.width/4
+                    pos_hint: {"top": .5}
+                    
+                Label: 
+                    text:""
+                    
+            
+            BoxLayout:
+                orientation: "vertical"   
+                         
+                Button:
+                    text: "Okay"
+                    font_size: 25
+                    on_release: Factory.IDPopup().open()
+                    pos_hint: {"top": 1, "center_x": 0.5}
+                    size_hint: (None, None)
+                    width: 200
+                    height: 50
+                
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+            
+
+<ThirdScreen>:
+    name: "selection"
+    # This Window assigns upcoming trial
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        GridLayout:
+            cols: 2
+            padding: 10
+            spacing: 10
+            
+            Label:
+                text: "This is the progress of the selected subject [b]P007[/b]: Last log was from session 4 on 2021-01-01, number of total trials si 431. Performance so far: 34% (of 80% criteria). Upcoming Session is X from Condition Y. This data is generated from the metadata. Please edit the yaml file if outdated."
+                multiline: True
+                markup: True
+                text_size: root.width/2.2, None
+                size: self.texture_size
+                pos_hint: {"center_x": 0.5}
+                halign: "justify"
+                
+                  
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 10
+                
+                Button:
+                    text: "Okay"
+                    font_size: 25
+                    size_hint: (.5, None)
+                    height: root.height/10
+                    pos_hint: {"center_x":.5}
+                    on_release: 
+                        app.root.current = "instruction"
+                        root.manager.transition.direction = "left"
+                    
+                Button:
+                    text: "Manual\nselection"
+                    font_size: 20
+                    size_hint: (.5, None)
+                    height: root.height/10
+                    pos_hint: {"center_x":.5}
+                    halign: "center"
+                
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+            
+
+<FourthScreen>:
+    name: "instruction"
+    # This Window gives instruction for upcoming trial
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            
+            GridLayout:
+                cols: 2
+                
+                Label:
+                    text: "[b]Before starting the experiment, please proceed to adjust the experimental setup for following trial[/b]: Trial X Session Y Group B. Adjust position for [b]Right key at 0.25cm[/b] and [b]Left key at 2.35cm[/b]."
+                    markup: True
+                    multiline: True
+                    text_size: root.width/2.2, None
+                    pos_hint: {"top":1}
+                    size: self.texture_size
+                    halign: 'justify'
+                    valign: 'top'
+                    
+                Label:
+                    text: "Remember to [b](1)[/b] start the cameras and [b](2)[/b] re-fill the feeder before starting the experiment. Try to remain outside the visual range of the subject and avoid noises during the session. Some more helpful advice here"
+                    markup: True
+                    multiline: True
+                    text_size: root.width/2.2, None
+                    pos_hint: {"top":1}
+                    size: self.texture_size
+                    halign: 'justify'
+                    valign: 'top'
+                      
+            Button:
+                text: "Start"
+                font_size: 25
+                pos_hint: {"top": 1, "center_x": 0.5}
+                size_hint: (None, None)
+                width: 200
+                height: 50 
+                on_release:
+                    app.root.current = "countdown"
+                    root.manager.transition.direction = "left"
+    
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+
+
+<FifthScreen>:
+    name: "countdown"
+    # This Window starts experiment countdown
+    
+    # define ids to be used in this screen
+    countdown: countdown
+    
+    
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        GridLayout:
+            cols: 2
+            padding: 10
+            
+            Label:
+                text: "Proceed to place the subject in the starting area for the habituatino phase. Start the countdown with [b]Start Trial[/b].\n Be prepared to release the subject after the countdown hits 0, the trial will start automatically."
+                multiline: True
+                markup: True
+                text_size: root.width/2.2, None
+                pos_hint: {"top":1}
+                size: self.texture_size
+                halign: 'justify'
+                valign: 'top'
+                  
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 10
+                padding: 10
+                
+                Label:
+                    id: countdown
+                    text: "00:00"
+                    font_size: 80
+                    
+                    
+                Button:
+                    text: "Start Trial"
+                    on_release: root.start_countdown()
+                    font_size: 25
+                    size_hint: (.6, .4)
+                    pos_hint: {"center_x": .5}
+                    
+                Button:
+                    text: "Back"
+                    font_size: 25
+                    size_hint: (.6, .4)
+                    pos_hint: {"center_x": .5}
+                    on_release: 
+                        app.root.current = "instruction"
+                        root.manager.transition.direction = "right"
+        
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+
+
+<SixthScreen>:
+    name: "trial"
+    # This Window shows trial end statistics
+    
+    # this ids will be updated from .py
+    finish: finish
+    progress: progress
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            padding: 10
+            
+                
+            GridLayout:
+                cols: 2
+                
+                BoxLayout:
+                    orientation: "vertical"
+                    spacing: 10
+                    padding: 10
+                    
+                    Label:
+                        text: "Trial started..."
+                        font_size: 30
+                        halign: 'center'
+                        valign: 'top'
+                        
+                    Label:
+                        id: finish
+                        text: ""
+                        font_size: 30
+                        halign: 'center'
+                        valign: 'top'
+                    
+                Label:
+                    id: progress
+                    text: "[b]Progress[/b]:\nTrial started and is now blocking the GUI thread, reaction time and choice is beeing printed in the console, but will be updated here soon (work in progress)"
+                    markup: True
+                    multiline: True
+                    font_size: 15
+                    text_size: root.width/2.2, None
+                    pos_hint: {"top":1}
+                    size: self.texture_size
+                    halign: 'left'
+                    valign: 'top'
+                 
+                        
+            Button:
+                text: "Continue"
+                font_size: 25
+                size_hint: (None, None)
+                width: 200
+                height: 50
+                pos_hint: {"center_x": 0.5, "top": 0.5}
+                on_release: 
+                    app.root.current = "selection"
+                    root.manager.transition.direction = "right"
+            
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+    
+    
+<SeventhScreen>:
+    name: "protocol"
+    # This Window shows editable exp Protocol
+    
+    description: description
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        GridLayout:
+            cols: 2
+            padding: 10
+            spacing: 10
+            
+            BoxLayout:
+                orientation: "vertical"
+                spacing: 20
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                
+                    Label:
+                        id: description
+                        text: ""
+                        font_size: 15
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: root.width/2.2, None
+                        padding: 10, 0
+                        halign: 'justify'
+                        
+                    
+                Button:
+                    text: "Edit"
+                    font_size: 25
+                    on_release: root.edit()
+                    size_hint: (None, None)
+                    width: 200
+                    height: 50
+                    pos_hint: {"center_x": 0.5, "top":0.5}
+                    
+            
+            Image:
+                source: "experimentalsetup.png"
+                size: self.texture_size
+                pos_hint: {"center_x": 0.5, "top":1}
+                
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+    
+    
+<EigthsScreen>:
+    name: "progress"
+    # This Window shows exp Progress
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        BoxLayout:
+            orientation: "vertical"
+            padding: 10
+            
+            GridLayout:
+                cols: 2
+                
+                Label:
+                    text: "[b]The Experiment has not yet started[/b]! This is a dummy description of what the Progress for this experiment may look like. On the left side the overall experiment progress may be described, e.g., with 30% completed of condition 3/5. If beneficial, a short figure/progress bar may be displayed instead of text. Should the information be outdated or incomplete, feel free to edit the .yaml document below."
+                    multiline: True
+                    markup: True
+                    text_size: root.width/2.2, None
+                    pos_hint: {"top":1}
+                    size: self.texture_size
+                    halign: 'justify'
+                    valign: 'top'
+                    
+                Label:
+                    text: "This side of the screen, may show the progress of individual subjects that started the experiment. The listed subjects may contain their actual condition, last session, num of trials and something like a performance index to reach criterium. 0% timeout, 70% optimal choice, avg walking speed 54sec. avg choice time 1.03 sec. The list may get long and will be scrollable. This progress can be prninted."
+                    multiline: True
+                    text_size: root.width/2.2, None
+                    pos_hint: {"top":1}
+                    size: self.texture_size
+                    halign: 'justify'
+                    valign: 'top'
+                
+            Button:
+                text: "Edit"
+                font_size: 25
+                on_release: root.edit()
+                size_hint: (None, None)
+                width: 200
+                height: 50
+                pos_hint: {"center_x": 0.5, "top":0.5}
+                    
+            
+                
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+            
+    
+<NinethScreen>:
+    name: "IDs"
+    # This Window shows subject IDs
+    
+    # Define variables 
+    database: database
+    
+    GridLayout:
+        cols: 1
+        size: root.width, root.height
+        
+        # HEADER 1/4
+        Image:
+            source: 'header.png'
+            size: self.texture_size
+            size_hint: 1, 0.75
+            pos_hint: {"top":1}
+                
+        # BODY 2/4
+        GridLayout:
+            cols: 2
+                
+            ScrollView:
+                #size: self.size
+                do_scroll_x: False
+                do_scroll_y: True
+                always_overscroll: True
+                
+                GridLayout:
+                    cols: 3
+                    padding: 10
+                    spacing: 5
+                    id: database
+                    size_hint_y: None 
+                    row_default_height: root.height/5
+                    height: root.height
+                    row_force_default: True
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+
+                    BoxLayout:
+                        orientation: "horizontal"
+                        
+                        Image:
+                            source: "subjectID.png"
+                            size: self.texture_size
+
+                        Label:
+                            size_hint_y: None
+                            height: self.texture_size[1]
+                            text_size: self.width, None
+                            padding: 10, 10
+                            text:
+                                "Label: P007 \n Sex: Male \n Age: 2021-01-09 \n Features: very pretty"
+                    
+                
+        # Spacer 3/4
+        Label: 
+            text: ""
+            font_size: 20
+            size_hint: 1, 0.1
+
+            
+        # FOOTER 4/4
+        Button:
+            text: "Exit"
+            font_size: 25
+            on_release: 
+                app.root.current = "main"
+                root.manager.transition.direction = "right"
+            size_hint: 1, 0.1
+    
