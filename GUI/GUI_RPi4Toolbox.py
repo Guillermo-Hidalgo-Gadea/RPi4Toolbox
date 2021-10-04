@@ -13,9 +13,11 @@ from Toolbox.metadata import export
 
 # Define different screens
 class MainScreen(Screen):
+    # main menu screen
     def homepage(self):
         webbrowser.open("https://guillermohidalgogadea.com/#contact")
-    # main menu screen
+    
+    # Intro text and buttons are defined in .kv file
 
 class SecondScreen(Screen):
 # name:"experiment"
@@ -29,10 +31,10 @@ class SecondScreen(Screen):
         self.experimenter.text = ''
         
     # ask for subject id and experimenter
-    def start_session(self):
+    def start_experiment(self):
         print('Subject: ', self.subject.text,' Experimenter: ', self.experimenter.text)
 
-    # popup with subject info for re-id
+    # TODO: use popup with correct subject info for re-id
 
 class ThirdScreen(Screen):
 # name: "selection"
@@ -40,10 +42,14 @@ class ThirdScreen(Screen):
    # update text subject progress
     def on_enter(self):
         # load running session
+        # TODO: find subject history and upcoming session 
         running_session = Session(self.manager.ids.experiment.ids.subject.text, self.manager.ids.experiment.ids.experimenter.text)
         print('Subject: ',running_session.subject)
         print('Experimenter: ',running_session.experimenter)
         print('Session: ',running_session.session)
+    
+    # TODO: display correct text in .kv file
+    # TODO: enable manual selection button 
 
         #runningSession.start_habituation = 0
         #runningSession.trial_count = 0
@@ -53,7 +59,7 @@ class FourthScreen(Screen):
 # name: "instruction"
     # load session from ThirdScreen
     #runningSession = self.manager.ids.experiment.ids.experimenter.text
-    # give info on trial setup
+    # TODO: give info on trial setup to .kv file
     pass
  
 
@@ -82,6 +88,8 @@ class FifthScreen(Screen):
         self.on_start()
         self.countdown_sarted = not self.countdown_sarted
         self.trial_count += 1 
+    
+    # TODO: write start habituation time to metadata 
         
 
 class SixthScreen(Screen):
@@ -110,7 +118,7 @@ class SixthScreen(Screen):
 
         
 # show reps print 
-# save metadata for trial in log yaml
+# TODO: save metadata for trial in log yaml
 
 class SeventhScreen(Screen):
     def on_pre_enter(self):
@@ -135,6 +143,8 @@ class EigthsScreen(Screen):
         
 
 class NinethScreen(Screen):
+    # handled in .kv file
+    # TODO: access real pictures
     pass
    
 class WindowManager(ScreenManager):
